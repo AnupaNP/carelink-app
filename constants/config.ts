@@ -13,7 +13,7 @@
 //   Render.com backend URL (set EXPO_PUBLIC_API_URL in eas.json env or here)
 // ─────────────────────────────────────────────────────────────
 
-const PRODUCTION_URL = 'https://carelink-backend.onrender.com';
+const PRODUCTION_URL = 'https://carelink-backend-wenq.onrender.com';
 const DEV_URL = 'http://10.0.2.2:3000'; // Android emulator default
 
 // process.env.EXPO_PUBLIC_API_URL allows overriding via EAS environment variables

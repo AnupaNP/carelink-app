@@ -14,7 +14,7 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://carelink-backend.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://carelink-backend-wenq.onrender.com"
       },
       "android": {
         "buildType": "apk"
@@ -22,7 +22,7 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://carelink-backend.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://carelink-backend-wenq.onrender.com"
       },
       "android": {
         "buildType": "app-bundle"
