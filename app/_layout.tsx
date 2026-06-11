@@ -1,4 +1,3 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -25,9 +24,11 @@ function RootNavigator() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="login" />
+      <Stack.Screen name="register" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="elder/[id]" options={{ presentation: 'card', animation: 'slide_from_right' }} />
       <Stack.Screen name="elder/add" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+      <Stack.Screen name="elder/edit/[id]" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
       <Stack.Screen name="elder/scheduler/[elderId]" options={{ presentation: 'card', animation: 'slide_from_right' }} />
       <Stack.Screen name="call/[id]" options={{ presentation: 'card', animation: 'slide_from_right' }} />
     </Stack>
@@ -43,10 +44,8 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <ThemeProvider value={DarkTheme}>
-        <RootNavigator />
-        <StatusBar style="light" />
-      </ThemeProvider>
+      <RootNavigator />
+      <StatusBar style="light" />
     </AuthProvider>
   );
 }

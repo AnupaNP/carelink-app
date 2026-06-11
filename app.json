@@ -26,7 +26,8 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECEIVE_BOOT_COMPLETED",
         "android.permission.VIBRATE",
-        "android.permission.POST_NOTIFICATIONS"
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -60,10 +61,17 @@
           "photosPermission": "CareLink needs access to your photos to set elder profile pictures.",
           "cameraPermission": "CareLink needs camera access to take elder profile photos."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "62031927-685d-42b6-8e5f-0c850a78ba32"
+      }
     }
   }
 }
