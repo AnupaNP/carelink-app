@@ -29,8 +29,7 @@ export default function AddElderScreen() {
     }
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: 'images',
-      allowsEditing: true,
-      aspect: [1, 1],
+      allowsEditing: false,   // allowsEditing=true triggers UCropActivity which crashes on Android 13+
       quality: 0.8,
     });
     if (!result.canceled && result.assets[0]) {
@@ -45,8 +44,7 @@ export default function AddElderScreen() {
       return;
     }
     const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
+      allowsEditing: false,   // allowsEditing=true triggers UCropActivity which crashes on Android 13+
       quality: 0.8,
     });
     if (!result.canceled && result.assets[0]) {
