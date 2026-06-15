@@ -22,33 +22,44 @@ export default function AddElderScreen() {
   }
 
   async function pickPhoto() {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission needed', 'Please allow access to your photo library.');
-      return;
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: 'images',
-      allowsEditing: false,   // allowsEditing=true triggers UCropActivity which crashes on Android 13+
-      quality: 0.8,
-    });
-    if (!result.canceled && result.assets[0]) {
-      setPhotoUri(result.assets[0].uri);
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Please allow access to your photo library.');
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+      if (!result.canceled && result.assets[0]) {
+        setPhotoUri(result.assets[0].uri);
+      }
+    } catch (e) {
+      console.warn('Photo picker error:', e);
     }
   }
 
   async function takePhoto() {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission needed', 'Please allow camera access.');
-      return;
-    }
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: false,   // allowsEditing=true triggers UCropActivity which crashes on Android 13+
-      quality: 0.8,
-    });
-    if (!result.canceled && result.assets[0]) {
-      setPhotoUri(result.assets[0].uri);
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Please allow camera access.');
+        return;
+      }
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+      if (!result.canceled && result.assets[0]) {
+        setPhotoUri(result.assets[0].uri);
+      }
+    } catch (e) {
+      console.warn('Camera error:', e);
     }
   }
 
@@ -63,19 +74,21 @@ export default function AddElderScreen() {
         ...form,
         age: form.age ? parseInt(form.age) : null,
       });
-      // Upload photo if selected
+      // Upload photo silently — never block elder creation
       if (photoUri && res.data?.id) {
-        try {
-          await eldersApi.uploadPhoto(res.data.id, photoUri);
-        } catch (photoErr) {
-          console.warn('Photo upload failed (non-critical):', photoErr);
-        }
+        eldersApi.uploadPhoto(res.data.id, photoUri).catch(e =>
+          console.warn('Photo upload skipped (non-critical):', e)
+        );
       }
       Alert.alert('✅ Success', `${form.name} has been added to your care list.`, [
         { text: 'OK', onPress: () => router.back() },
       ]);
     } catch (err: any) {
-      Alert.alert('Error', err?.response?.data?.error || 'Failed to add elder.');
+      const msg =
+        err?.response?.data?.error ||
+        err?.message ||
+        'Failed to add elder. Please try again.';
+      Alert.alert('Error', msg);
     } finally {
       setLoading(false);
     }
